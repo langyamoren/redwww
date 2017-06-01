@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    <struts>
+     <package name="mredglobal" extends="struts-default">
+        <interceptors>
+			<interceptor name="loginedCheck" class="com.red.intercepter.LoginedCheckInterceptor"/>
+			<interceptor-stack name="reddefault">
+			  <interceptor-ref name="loginedCheck"></interceptor-ref>
+			  <interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+       
+        <action name="*">
+          <result>/error.html</result>
+        </action>
+      </package>
+      <!--后台管理 -->
+      <package name="mred" extends="struts-default" namespace="/mred">
+        <interceptors>
+			<interceptor name="loginedCheck" class="com.red.intercepter.LoginedCheckInterceptor"/>
+			<interceptor-stack name="reddefault">
+			  <interceptor-ref name="loginedCheck"></interceptor-ref>
+			  <interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<global-results>
+          <result name="red_error" type="redirectAction">
+            <param name="actionName">mredlogin</param>
+            <param name="actionspace">/mred</param>
+           </result>
+          <result name="error">/error.html</result>
+        </global-results>
+        <global-exception-mappings>
+          <exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+        </global-exception-mappings>
+        <action name="index">
+        <interceptor-ref name="reddefault"></interceptor-ref>
+          <result>/WEB-INF/pages/manage/main.jsp</result>
+          
+        </action>
+        <action name="welcome">
+           <result>/WEB-INF/pages/manage/welcome.jsp</result>
+            <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+        <action name="mredlogin">
+          <result>/WEB-INF/pages/manage/login.jsp</result>
+        </action>
+        <action name="createHtml" class="createHtmlAction">
+          <result>/WEB-INF/pages/manage/welcome.jsp</result>
+           <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+        <action name="courseContent" class="courseContentAction">
+            <result>/WEB-INF/pages/web/course_content.jsp</result>
+         </action>
+        <action name="chapterHtml" class="chapterHtmlAction">
+           <result>/WEB-INF/pages/manage/welcome.jsp</result>
+            <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+         <action name="courseListHtml" class="courseListHtmlAction">
+           <result type="redirectAction">
+             <param name="actionName">browse_course</param>
+             <param name="namespace">/mred/course</param>
+           </result>
+            <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+        <action name="coursesHtml" class="coursesHtmlAction">
+         <result type="redirectAction">
+             <param name="actionName">browse_course</param>
+             <param name="namespace">/mred/course</param>
+           </result>
+            <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+        <action name="*_duixian" class="duixianAction" method="{1}Finance">
+            <result>/WEB-INF/pages/manage/duixian.jsp</result>
+             <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+      </package>
+      <!--文章管理 -->
+      <package name="article_manage" extends="mred" namespace="/mred/article">
+        <action name="*_article" class="articleAction" method="{1}Article">
+            <result name="add">/WEB-INF/pages/manage/article_add.jsp</result>
+            <result name="input">/WEB-INF/pages/manage/article_add.jsp</result>
+            <result name="edite">/WEB-INF/pages/manage/article_edit.jsp</result> 
+            <result>/WEB-INF/pages/manage/article_manage.jsp</result>
+            <result name="invalid.token">/WEB-INF/pages/manage/article_add.jsp</result>
+            <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+     </package>
+     <!--文章类别 -->
+     <package name="article_type_manage" extends="mred" namespace="/mred/article_type">
+         <action name="*_article_type" class="articleTypeAction" method="{1}ArticleType">
+            <result>/WEB-INF/pages/manage/article_type_manage.jsp</result>
+            <result name="input">/WEB-INF/pages/manage/article_types_manage.jsp</result>
+             <interceptor-ref name="reddefault"></interceptor-ref>
+         </action>
+         
+      </package>
+     <!-- 下载类别管理 -->
+      <package name="downType" extends="mred" namespace="/mred/download_type">
+           <action name="*_download_type" class="downTypeAction" method="{1}DownType">
+              <result>/WEB-INF/pages/manage/download_type_manage.jsp</result>
+              <result name="input">/WEB-INF/pages/manage/download_type_manage.jsp</result>
+               <interceptor-ref name="reddefault"></interceptor-ref>
+           </action>
+      </package>
+
+     <!-- 下载管理 -->  
+      <package name="download_manage" extends="mred" namespace="/mred/download">
+           <action name="*_download" class="downloadAction" method="{1}Download">
+            <result>/WEB-INF/pages/manage/download_manage.jsp</result>
+            <result name="add">/WEB-INF/pages/manage/download_add.jsp</result>
+            <result name="input">/WEB-INF/pages/manage/download_add.jsp</result>
+            <result name="edit">/WEB-INF/pages/manage/download_edit.jsp</result>
+            <result name="invalid.token">/WEB-INF/pages/manage/download_manage.jsp</result>
+            <!-- 
+	        <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">20971520000</param>
+	          <param name="fileUpload.allowedExtensions">.zip,.rar</param>
+	        </interceptor-ref>
+	        <interceptor-ref name="loginedCheck"></interceptor-ref>
+	         <param name="upPath">upload/soft</param>
+	          --> 
+	          <interceptor-ref name="reddefault"></interceptor-ref>
+	          
+           </action>
+      </package>
+       <!-- 课程 -->
+      <package name="course_manage" extends="mred" namespace="/mred/course">
+         <action name="*_course" class="courseAction" method="{1}Course">
+            <result>/WEB-INF/pages/manage/course_manage.jsp</result>
+            <result name="add">/WEB-INF/pages/manage/course_add.jsp</result>
+            <result name="edit">/WEB-INF/pages/manage/course_edit.jsp</result>
+            <result name="input">/WEB-INF/pages/manage/course_add.jsp</result>
+            <result name="list">/WEB-INF/pages/manage/course_list.jsp</result>
+             <interceptor-ref name="reddefault"></interceptor-ref>
+         </action>
+      </package>
+      
+      <!-- 课程类别 -->
+       <package name="course_type_manage" extends="mred" namespace="/mred/course_type">
+          <action name="*_course_type" class="courseTypeAction" method="{1}CourseType">
+              <result>/WEB-INF/pages/manage/course_type_manage.jsp</result>
+              <result name="input">/WEB-INF/pages/manage/course_type_manage.jsp</result>
+               <interceptor-ref name="reddefault"></interceptor-ref>
+          </action>
+       </package>
+       <!-- 课程内容 -->
+       
+       <package name="chapter_manage" extends="mred" namespace="/mred/chapter">
+        <action name="*_chapter" class="chapterAction" method="{1}Chapter">
+               <result type="redirectAction">
+                  <param name="actionName">list_course</param>
+                  <param name="namespace">/mred/course</param>
+                  <param name="course.id">${course.id}</param>
+                  <param name="actionMsg">${actionMsg}</param>
+                 
+               </result>
+              <result name="add">/WEB-INF/pages/manage/chapter_add.jsp</result>
+              <result name="edit">/WEB-INF/pages/manage/chapter_edit.jsp</result>
+              <result name="input">/WEB-INF/pages/manage/chapter_add.jsp</result>
+               <interceptor-ref name="reddefault"></interceptor-ref>
+          </action>
+       </package>
+        <!--问题类别 -->
+      <package name="question_types"  extends="mred" namespace="/mred/question_types">
+         
+          <action name="*_question_types" class="questionTypesAction" method="{1}QuestionTypes">
+            
+            <result>/WEB-INF/pages/manage/question_types_manage.jsp</result>
+            <result name="input">/WEB-INF/pages/manage/question_types_manage.jsp</result>
+            <result name="edite">/WEB-INF/pages/manage/question_types_edite.jsp</result>
+            <result name="invalid.token">/WEB-INF/pages/manage/question_types_manage.jsp</result>
+             <interceptor-ref name="reddefault"></interceptor-ref>
+            <!--  
+            <interceptor-ref name="token">
+               <param name="includeMethods">addQuestionTypes</param>
+            </interceptor-ref>
+            -->   
+          </action>
+      </package>
+      <!-- 问题 -->
+      <package name="question" extends="mred" namespace="/mred/question">
+         <action name="*_question" class="questionAction" method="{1}Question">
+             <result>/WEB-INF/pages/manage/question_manage.jsp</result>
+             <result name="edit">/WEB-INF/pages/manage/question_edit.jsp</result>
+             <result name="input">/WEB-INF/pages/manage/question_manage.jsp</result>
+             <result name="browseAnswer" type="redirectAction">
+				<param name="actionName">browse_answer</param>
+				<param name="answer.question.id">${question.id}</param>
+            </result>
+             <interceptor-ref name="reddefault"></interceptor-ref>
+         </action>
+         <action name="*_answer" class="answerAction" method="{1}Answer">
+           <result>/WEB-INF/pages/manage/answer_manage.jsp</result>
+           <result name="toBrowse" type="redirectAction">
+				<param name="actionName">browse_answer</param>
+				<param name="answer.question.id">${question.id}</param>
+            </result>
+             <interceptor-ref name="reddefault"></interceptor-ref>
+         </action>
+      </package>
+      <!-- 会员管理 -->
+      <package name="member" extends="mred" namespace="/mred/member">
+        <action name="*_member" class="memberAction" method="{1}Member">
+          <result name="browse">/WEB-INF/pages/manage/member_browse.jsp</result>
+          <result name="view">/WEB-INF/pages/manage/member_view.jsp</result>
+          <result name="edit">/WEB-INF/pages/manage/member_edit.jsp</result>
+          <result name="recome">/WEB-INF/pages/manage/friends.jsp</result>
+          <result name="finace">/WEB-INF/pages/manage/finances.jsp</result>
+          <result name="courses">/WEB-INF/pages/manage/member_course.jsp</result>
+           <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+        <action name="*_password" class="memberAction" method="{1}Password">
+          <result name="browsepassword">/WEB-INF/pages/manage/member_password.jsp</result>
+           <interceptor-ref name="reddefault"></interceptor-ref>
+        </action>
+        
+      </package>
+        
+      <!-- 焦点广告管理 -->
+      <package name="focus" extends="mred" namespace="/mred/focus">
+         <action name="focus_*" class="focusAction" method="{1}Focus">
+            <result>/WEB-INF/pages/manage/focus_manage.jsp</result>
+            <result name="input">/WEB-INF/pages/manage/focus_manage.jsp</result>
+            <result name="invalid.token">/WEB-INF/pages/manage/focus_manage.jsp</result>
+         <!-- 
+             <interceptor-ref name="token">
+               <param name="includeMethods">addFocus,updateFocus</param>
+            </interceptor-ref>
+         -->    
+	        <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">2097152</param>
+	          <param name="fileUpload.allowedExtensions">.jpg,.png,.gif,.bmp</param>
+	        </interceptor-ref>
+	         <param name="upPath">res/upres/focus</param>
+	        <param name="width">235</param>
+		   <param name="height">160</param>
+		    <interceptor-ref name="reddefault"></interceptor-ref>
+         </action>
+      </package>
+     <!-- 管理员管理 --> 
+      <package name="admin" extends="mred" namespace="/mred/admin">
+         <action name="admin_*" class="adminAction" method="{1}Admin">
+             <result name="toBrowseAdmin">/WEB-INF/pages/manage/admin_view.jsp</result>
+             <result name="toEditAdmin">/WEB-INF/pages/manage/admin_edit.jsp</result>
+             <result name="index" type="redirectAction">
+             <param name="actionName">index</param>
+             <param name="namespace">/mred</param>
+             </result>
+             <result name="input">/WEB-INF/pages/manage/login.jsp</result>
+             <result name="logout">/index.html </result>
+             <result>/WEB-INF/pages/manage/admin_browse.jsp</result>
+              <interceptor-ref name="reddefault"></interceptor-ref>
+         </action>
+         <action name="goadmin">
+           <result>/WEB-INF/pages/manage/admin_add.jsp</result>
+            <interceptor-ref name="reddefault"></interceptor-ref>
+         </action>
+      </package>
+
+    </struts>

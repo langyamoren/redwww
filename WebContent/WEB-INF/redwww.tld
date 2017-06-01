@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+   <!-- 标签库的版本号 --> 
+  <tlib-version>1.0</tlib-version>
+  <!-- 标签库的默认前缀 -->
+  <short-name>redwww_taLibs</short-name>
+  <!-- 标签库的默认URI -->
+  <uri>http://www.redwww.com/tld</uri>
+ 
+ <!--问题分类列表 -->
+ <tag>
+    <description>问题分类列表 </description>
+    <name>questionTypeList</name>
+    <tag-class>com.red.tld.QuestionTypeList</tag-class>
+	<!-- 标签体为空 -->    
+    <body-content>empty</body-content>   
+ </tag>
+ <!-- 取文章最新列表标签 -->
+ <tag>
+    <description>取文章最新列表标签</description>
+    <name>getArticles</name>
+    <tag-class>com.red.tld.GetTopArticlesById</tag-class>
+	<!-- 标签体为空 -->    
+    <body-content>empty</body-content>
+    <attribute>
+        <description>网站类别ID</description>
+        <name>typeId</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>  
+     <attribute>
+        <description>最大字符长度</description>
+        <name>itermMaxLen</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>  
+    <attribute>
+        <description>类别标题</description>
+        <name>title</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>  
+     <attribute>
+        <description>类选择器名</description>
+        <name>className</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute> 
+    <attribute>
+        <description>类选择器名</description>
+        <name>showDate</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute> 
+     
+    <attribute>
+        <description>显示条数</description>
+        <name>topCount</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+        <attribute>
+        <description>更多URl</description>
+        <name>url</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>      
+ </tag>
+ 
+<!-- 取下载最新列表标签 -->
+ <tag>
+    <description>取文章最新列表标签</description>
+    <name>getDownloads</name>
+    <tag-class>com.red.tld.GetTopDownloadById</tag-class>
+	<!-- 标签体为空 -->    
+    <body-content>empty</body-content>
+    <attribute>
+        <description>网站类别ID</description>
+        <name>typeId</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>  
+     <attribute>
+        <description>最大字符长度</description>
+        <name>itermMaxLen</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>  
+    <attribute>
+        <description>类别标题</description>
+        <name>title</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>  
+    <attribute>
+        <description>显示条数</description>
+        <name>topCount</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+        <attribute>
+        <description>更多URl</description>
+        <name>url</name>
+        <required>true</required>
+        <!-- 可以使用JSP表达式 -->
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>      
+ </tag>
+ 
+</taglib>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.2//EN"
+       "http://www.opensymphony.com/xwork/xwork-validator-1.0.2.dtd">
+<validators>
+
+  <field name="member.email">
+      <field-validator type="requiredstring">
+          <param name="trim">true</param>
+          <message>必须输入用户/Email！</message>
+      </field-validator>
+      <field-validator type="email">
+          <message>必须是email格式;例如：redwww@163.com</message>
+      </field-validator>
+  </field>
+  <field name="member.password">
+      <field-validator type="requiredstring">
+          <param name="trim">true</param>
+          <message>必须输入密码!</message>
+     </field-validator>
+     
+      <field-validator type="stringlength">
+         <param name="minLength">6</param>
+         <param name="maxLength">20</param>
+         <param name="trim">true</param>
+         <message>密码长度在6到20位之间</message>
+      </field-validator>
+  </field>
+
+  
+  <field name="repwd">
+      <field-validator type="requiredstring">
+          <param name="trim">true</param>
+          <message>重复密码不能为空！</message>
+      </field-validator>
+  </field>
+  <field name="member.name">
+      <field-validator type="requiredstring">
+          <param name="trim">true</param>
+          <message>姓名不能为空！</message>
+      </field-validator>
+  </field>
+  
+  <field name="member.qq">
+      <field-validator type="requiredstring">
+          <param name="trim">true</param>
+          <message>qq不能为空！</message>
+      </field-validator>
+  </field>
+  <field name="member.cellphone">
+      <field-validator type="requiredstring">
+           <param name="trim">true</param>
+          <message>手机不能为空！</message>
+      </field-validator>
+      <field-validator type="regex">
+           <param name="expression"><![CDATA[([0-9]{11,12})]]></param>
+           <message>手机号只能为数字！</message>
+      </field-validator>
+  </field>
+  <field name="recome">
+      <field-validator type="requiredstring">
+        <param name="trim">true</param>
+          <message>邀请码不能为空，如果没有邀请码请向管理员索取！</message>
+      </field-validator>
+  </field>
+  <field name="member.province">
+      <field-validator type="int">
+         <param name="min">1</param>
+         <param name="max">35</param>
+      <message>请选择省份</message>
+   </field-validator>
+  </field>
+  
+  <field name="rand">
+      <field-validator type="requiredstring">
+       <param name="trim">true</param>
+          <message>验证码不能为空！</message>
+      </field-validator>
+  </field>  
+
+
+   <validator type="expression">
+      <param name="expression">member.password==repwd</param>
+      <message>两次输入密码不一致！</message>
+   </validator>
+
+</validators>
+
+

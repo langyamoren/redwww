@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    
+    
+    <struts>
+    	<!-- 设置Web应用的默认Locale为zh_CN -->
+      <constant name="struts.locale" value="zh_CN"></constant>
+      <constant name="struts.custom.i18n.resources" value="messageResource"/>
+      <!-- 设置Web应用的默认编码集为gbk -->
+      <constant name="struts.i18n.encoding" value="GB18030"></constant>
+      <!-- 临时文件夹 -->
+      <constant name="struts.multipart.saveDir" value="tem"></constant>
+      <!-- 最大上传文件为200M -->
+      <constant name="struts.multipart.maxSize" value="209715200"></constant>
+      <!-- 设置Struts2应用是否处于开发模式，通常在开发调试阶段设为true,正式上线后可设为false -->
+      <constant name="struts.devMode" value="true"></constant>
+      <!-- 设置Struts2的默认主题为simple -->
+      <constant name="struts.ui.theme" value="simple"></constant>
+      <!-- 设置Struts2默认的ObjectFactory为spring -->
+      <constant name="struts.objectFactory" value="spring"></constant>
+      <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+
+      <include file="admin.xml"></include>
+      <include file="redweb.xml"></include>
+      <include file="ajax.xml"></include>
+
+    </struts>

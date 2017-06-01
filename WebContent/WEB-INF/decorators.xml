@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/pages/decorators">
+	 <!-- 
+	<excludes> 
+	   <pattern>/mred/mredlogin</pattern> 
+	   <pattern>/WEB-INF/pages/manage/login.jsp</pattern>
+	   <pattern>/mred/admin/admin_login</pattern>
+	   
+	   <pattern>/mred/error</pattern>
+	   <pattern>/error.html</pattern>
+	   <pattern>/red/course/downvod</pattern>
+	   <pattern>/red/download/downloadFile</pattern>
+	   <pattern>/upload/*</pattern>
+
+	   <pattern>/red/receive_bill</pattern>
+	   <pattern>/WEB-INF/pages/web/space/givebill.jsp</pattern>
+	   <pattern>/WEB-INF/pages/web/space/show.jsp</pattern>
+	   <pattern>/show.jsp</pattern>
+	   <pattern>/receive.jsp</pattern>
+	    
+	</excludes> 
+	      
+   <decorator name="mred" page="mred_main.jsp">
+      <pattern>/mred/*</pattern>
+   </decorator>
+      <decorator name="redhtml" page="red_main.jsp">
+      <pattern>/html/*</pattern>
+   </decorator>
+	-->
+	<excludes>
+	   <pattern>/red/notify_alipay</pattern>
+	   <pattern>red/course/downvod</pattern>
+	   <pattern>mred/*</pattern>
+	   <pattern>redhtml/*</pattern>
+	</excludes>
+	
+   <decorator name="red" page="red_main.jsp">
+      <pattern>/red/*</pattern>
+   </decorator>
+   <decorator name="redhtml" page="red_main.jsp">
+      <pattern>/html/*</pattern>
+   </decorator>
+</decorators>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!-- Spring配置文件的根元素 -->
+
+<!-- DaoBase  access db -->
+  <bean id="hibernateTamplate" abstract="true">
+      <property name="sessionFactory" ref="mySessionFactory"></property>
+  </bean>
+  
+<!-- 配置MailSender -->
+<!-- 
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.163.com" />
+		<property name="defaultEncoding" value="GB18030"></property>
+		
+		<property name="username" value="redwww" />
+		<property name="password" value="redwww_com_888" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+	 -->
+	 <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.exmail.qq.com" />
+		<!-- 
+		<property name="port" value=25 />
+		 -->
+		<property name="defaultEncoding" value="GB18030"></property>
+		<property name="username" value="mage@redwww.com" />
+		<property name="password" value="billow8liu" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="redMailUtil" class="com.red.mail.RedMailUtil">
+	   <property name="sender" ref="mailSender"></property>
+	   <property name="from" value="mage@redwww.com"></property>
+	</bean>
+
+ <!-- Dao bean -->
+ <bean id="adminDao" class="com.red.dao.imp.AdminDaoImp" parent="hibernateTamplate"/>
+ <bean id="answerDao" class="com.red.dao.imp.AnswerDaoImp" parent="hibernateTamplate"/>
+ <bean id="articleDao" class="com.red.dao.imp.ArticleDaoImp" parent="hibernateTamplate"/>
+ <bean id="articleTypeDao" class="com.red.dao.imp.ArticleTypeDaoImp" parent="hibernateTamplate"/>
+ <bean id="chapterDao" class="com.red.dao.imp.ChapterDaoImp" parent="hibernateTamplate"/>
+ <bean id="courseDao" class="com.red.dao.imp.CourseDaoImp" parent="hibernateTamplate"/>
+ <bean id="courseTypeDao" class="com.red.dao.imp.CourseTypeDaoImp" parent="hibernateTamplate"/>
+ <bean id="downloadDao" class="com.red.dao.imp.DownloadDaoImp" parent="hibernateTamplate"/>
+ <bean id="downTypeDao" class="com.red.dao.imp.DownTypeDaoImp" parent="hibernateTamplate"/>
+ <bean id="financeDao" class="com.red.dao.imp.FinanceDaoImp" parent="hibernateTamplate"/>
+ <bean id="focusDao" class="com.red.dao.imp.FocusDaoImp" parent="hibernateTamplate"/>
+ <bean id="memberDao" class="com.red.dao.imp.MemberDaoImp" parent="hibernateTamplate"/>
+ <bean id="memberlevelDao" class="com.red.dao.imp.MemberlevelDaoImp" parent="hibernateTamplate"/>
+ <bean id="questionDao" class="com.red.dao.imp.QuestionDaoImp" parent="hibernateTamplate"/>
+ <bean id="questionTypeDao" class="com.red.dao.imp.QuestionTypeDaoImp" parent="hibernateTamplate"/>
+ <bean id="passwordDao" class="com.red.dao.imp.PasswordDaoImp" parent="hibernateTamplate"/>
+
+ <!-- ServiceBase configuration -->
+  
+  <bean id="serviceTamplate" abstract="true">
+     <property name="adminDao" ref="adminDao"/>
+     <property name="answerDao" ref="answerDao"/>
+     <property name="articleDao" ref="articleDao"/>
+     <property name="articleTypeDao" ref="articleTypeDao"/>
+     <property name="chapterDao" ref="chapterDao"/>
+     <property name="courseDao" ref="courseDao"/>
+     <property name="courseTypeDao" ref="courseTypeDao"/>
+     <property name="downloadDao" ref="downloadDao"/>
+     <property name="downTypeDao" ref="downTypeDao"/>
+     <property name="financeDao" ref="financeDao"/>
+     <property name="focusDao" ref="focusDao"/>
+     <property name="memberDao" ref="memberDao"/>
+     <property name="memberlevelDao" ref="memberlevelDao"/>
+     <property name="questionDao" ref="questionDao"/>
+     <property name="questionTypeDao" ref="questionTypeDao"/>
+     <property name="passwordDao" ref="passwordDao"/>
+  </bean>
+ 
+  
+  <!-- service   -->
+ 
+  <bean id="adminService" class="com.red.service.imp.AdminServiceImp" parent="serviceTamplate"/>
+  <bean id="articleService" class="com.red.service.imp.ArticleServiceImp" parent="serviceTamplate"/>
+  <bean id="courseService" class="com.red.service.imp.CourseServiceImp" parent="serviceTamplate"/>
+  <bean id="downloadService" class="com.red.service.imp.DownloadServiceImp" parent="serviceTamplate"/>
+  <bean id="guestService" class="com.red.service.imp.GuestServiceImp" parent="serviceTamplate"/>
+  <bean id="memberService" class="com.red.service.imp.MemberServiceImp" parent="serviceTamplate"/>
+  <bean id="questionService" class="com.red.service.imp.QuestionServiceImp" parent="serviceTamplate"/>
+  <bean id="spaceService" class="com.red.service.imp.SpaceServiceImp" parent="serviceTamplate"/>
+
+  <!-- Actoin Tamplate    -->
+
+  <bean id="actionBase" abstract="true">
+     <property name="adminService" ref="adminService"></property>
+     <property name="articleService" ref="articleService"></property>
+     <property name="courseService" ref="courseService"></property>
+     <property name="downloadService" ref="downloadService"></property>
+     <property name="guestService" ref="guestService"></property>
+     <property name="memberService" ref="memberService"></property>
+     <property name="questionService" ref="questionService"></property>
+     <property name="spaceService" ref="spaceService"></property> 
+     <!-- Email -->
+     <property name="redMailUtil" ref="redMailUtil"></property>
+  </bean>
+
+  <!-- Admin Actions -->
+  <bean id="redForwordAction" class="com.red.action.admin.RedForwordActoin" parent="actionBase" scope="prototype"></bean>            
+  <bean id="articleAction" class="com.red.action.admin.ArticleAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="articleTypeAction" class="com.red.action.admin.ArticleTypeAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="downloadAction" class="com.red.action.admin.DownloadAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="downTypeAction" class="com.red.action.admin.DownTypeAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="courseAction" class="com.red.action.admin.CourseAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="courseTypeAction" class="com.red.action.admin.CourseTypeAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="chapterAction" class="com.red.action.admin.ChapterAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionTypesAction" class="com.red.action.admin.QuestionTypesAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionAction" class="com.red.action.admin.QuestionAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="answerAction" class="com.red.action.admin.AnswerAction" parent="actionBase" scope="prototype"></bean> 
+  <bean id="memberAction" class="com.red.action.admin.MemberAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="focusAction" class="com.red.action.admin.FocusAction" parent="actionBase" scope="prototype"></bean>  
+  <bean id="adminAction" class="com.red.action.admin.AdminAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="duixianAction" class="com.red.action.admin.DuixianAction" parent="actionBase" scope="prototype"></bean>            
+ 
+ 
+  <bean id="createHtmlAction" class="com.red.action.admin.CreateHtmlAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="chapterHtmlAction" class="com.red.action.admin.ChapterHtmlAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="courseListHtmlAction" class="com.red.action.admin.CourseListHtmlAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="coursesHtmlAction" class="com.red.action.admin.CoursesHtmlAction" parent="actionBase" scope="prototype"></bean>  
+   
+   
+   <!-- AjaxAction -->
+   <!-- 文章内容上传图片 -->
+   <bean id="editorFileUpload" class="com.red.action.ajax.EditorUploadFile" scope="prototype"></bean>
+   <bean id="ajaxAction" class="com.red.action.ajax.AjaxAction" parent="actionBase" scope="prototype"></bean>        
+
+ 
+  <!-- web Actions -->
+  <bean id="loginAction" class="com.red.action.web.LoginAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="registAction" class="com.red.action.web.RegistAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="checkLoginAction" class="com.red.action.web.CheckLoginAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="spaceAction" class="com.red.action.web.SpaceAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="rightAction" class="com.red.action.web.RightAction"  parent="actionBase" scope="prototype"></bean>
+  <bean id="mainAction" class="com.red.action.web.MainAction"  parent="actionBase" scope="prototype"></bean>
+  <bean id="logoutAction" class="com.red.action.web.LogoutAction"  parent="actionBase" scope="prototype"></bean>
+  
+  <!-- 
+  <bean id="indexAction" class="com.red.web.action.IndexAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="registAction" class="com.red.web.action.RegistAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="checkLoginAction" class="com.red.web.action.CheckLoginAction" parent="actionBase" scope="prototype"></bean>
+  
+  -->
+   <!-- 文章 相关 -->
+
+  <bean id="articlesAction" class="com.red.action.web.ArticlesAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="articlesListAction" class="com.red.action.web.ArticlesListAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="articleContentAction" class="com.red.action.web.ArticleContentAction" parent="actionBase" scope="prototype"></bean>
+ 
+  <!-- 课程 相关 -->
+  <bean id="coursesAction" class="com.red.action.web.CoursesAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="courseListAction" class="com.red.action.web.CourseListAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="courseContentAction" class="com.red.action.web.CourseContentAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="downloadVodAction" class="com.red.action.web.DownloadVodAction" parent="actionBase" scope="prototype"></bean>
+ 
+  <!-- 下载 相关 -->
+  <bean id="downloadListAction" class="com.red.action.web.DownloadListAction" parent="actionBase" scope="prototype"></bean>
+   <bean id="downloadDescAction" class="com.red.action.web.DownloadDescAction" parent="actionBase" scope="prototype"></bean>
+   <bean id="downloadFileAction" class="com.red.action.web.DownloadFileAction" parent="actionBase" scope="prototype"></bean>
+  <!-- 
+  <bean id="downloadsAction" class="com.red.web.action.DownloadsAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="moreDownloadAction" class="com.red.web.action.MoreDownloadAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="downloadListAction" class="com.red.web.action.DownloadListAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="downloadDescAction" class="com.red.web.action.DownloadDescAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="downloadFileAction" class="com.red.web.action.DownloadFileAction" parent="actionBase" scope="prototype"></bean>
+   -->
+  
+  <!-- 问题模块 -->
+  <bean id="questionsAction" class="com.red.action.web.QuestionsAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionListAction" class="com.red.action.web.QuestionListAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionDescAction" class="com.red.action.web.QuestionDescAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionAnswerAction" class="com.red.action.web.QuestionAnswerAction" parent="actionBase" scope="prototype"></bean>
+   <bean id="askQuestionAction" class="com.red.action.web.AskQuestionAction" parent="actionBase" scope="prototype"></bean>
+   <!--
+  <bean id="moreQuestionAction" class="com.red.web.action.MoreQuestionAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionListAction" class="com.red.web.action.QuestionListAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="askQuestionAction" class="com.red.web.action.AskQuestionAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionDescAction" class="com.red.web.action.QuestionDescAction" parent="actionBase" scope="prototype"></bean>
+  <bean id="questionAnswerAction" class="com.red.web.action.QuestionAnswerAction" parent="actionBase" scope="prototype"></bean>
+  -->
+  <!-- 支付 -->
+  <bean id="alipayAction" class="com.red.action.web.AlipayAction" parent="actionBase" scope="prototype"></bean>
+  <!--  
+  <bean id="billAction" class="com.red.web.action.BillAction" parent="actionBase" scope="prototype"></bean>
+  
+  
+  <bean id="questionCreateHtmlAction" class="com.red.ajax.action.QuestionCreateHtmlAction" parent="actionBase" scope="prototype"></bean>
+ 
+    -->
+
+  
+
+
+</beans>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    
+    
+    <struts> 
+     <package name="redglobal" extends="struts-default">
+         <default-action-ref name="notFound" />
+        <global-results>
+          <result name="error">/error.html</result>
+           <result name="input">/error.html</result>
+        </global-results>
+        <global-exception-mappings>
+          <exception-mapping result="error" exception="java.lang.Exception"></exception-mapping>
+        </global-exception-mappings>
+           <action name="notFound">
+		    <result>/index.html</result>
+		   </action>
+      </package>
+      <package name="red" extends="struts-default" namespace="/red">
+        
+      <!-- 用到一个插件struts2-sunspoter-stream-1.0.jar -->
+       <result-types>
+          <result-type name="streamx" class="com.sunspoter.lib.web.struts2.dispatcher.StreamResultX"/>
+       </result-types> 
+       
+        <interceptors>
+	      <interceptor name="checkLogin" class="com.red.intercepter.CheckLoginInerceptor"></interceptor>
+	      <interceptor-stack name="checkLog">
+	        <interceptor-ref name="defaultStack"></interceptor-ref>
+	        <interceptor-ref name="checkLogin"></interceptor-ref>
+	      </interceptor-stack>
+	    </interceptors>
+	    <global-results>
+	      <result name="login">/WEB-INF/pages/web/login.jsp</result>
+	    </global-results>
+       
+        <action name="login">
+          <result name="success">/WEB-INF/pages/web/login.jsp</result>
+        </action>
+      
+        <action name="regist">
+          <result>/WEB-INF/pages/web/regist.jsp</result>
+        </action>
+        <action name="*_passwd" class="spaceAction" method="{1}Passwd">
+           <result name="forgot">/WEB-INF/pages/space/forgot_password.jsp</result>
+           <result>/WEB-INF/pages/web/login.jsp</result>
+           <result name="invalid.token">/WEB-INF/pages/space/forgot_password.jsp</result>
+        </action>
+        <!--  增加用户，用户注册 -->
+        <action name="addMember" class="registAction">
+           <result>/WEB-INF/pages/web/login.jsp</result>
+            <result name="input">/WEB-INF/pages/web/regist.jsp</result>
+        </action>
+        <!-- 验证用户和密码 -->
+        <action name="checkLogin" class="checkLoginAction">
+          <result name="input">/WEB-INF/pages/web/login.jsp</result>
+           <result name="success" type="redirectAction">
+             	<param name="actionName">myquestion_space</param>
+             	<param name="namespace">/red</param>
+           </result>
+          <!--  
+          <result>/WEB-INF/pages/space/space_main.jsp</result>
+         
+           -->
+        </action>
+       <!-- 找不到html/main.html时找red/main action -->
+       <action name="index">
+          <result type="redirect">/html/main.html</result>
+       </action>
+       <action name="main" class="mainAction">
+         <result>/WEB-INF/pages/web/main.jsp</result>
+       </action>
+        <action name="logout" class="logoutAction">
+            <result type="redirect">
+               /html/main.html
+            </result>
+        </action>
+        <action name="*_space" class="spaceAction" method="{1}Space">
+           <result name="input">/WEB-INF/pages/web/login.jsp</result>
+           <result name="default">/WEB-INF/pages/space/main.jsp</result>
+           <result name="payCourse">/WEB-INF/pages/space/main.jsp</result>
+           <result name="friends">/WEB-INF/pages/space/friends.jsp</result>
+            <result name="questions">/WEB-INF/pages/space/questions.jsp</result>
+           <result name="finaces">/WEB-INF/pages/space/finances.jsp</result>
+           <result name="askpassword">/WEB-INF/pages/space/ask_password.jsp</result>
+           <result name="editeMember">/WEB-INF/pages/space/member_info.jsp</result>
+           <result name="gopay">/WEB-INF/pages/space/chunzhi.jsp</result> 
+           <result name="index" type="redirect">/index.html</result>
+           <interceptor-ref name="checkLog"></interceptor-ref>
+        </action>
+        <action name="*_alipay" class="alipayAction" method="{1}Alipay">
+           <result name="topay">/WEB-INF/pages/space/alipayto.jsp</result>
+           <result name="backpay">/WEB-INF/pages/space/return_url.jsp</result>
+           <result></result>
+        </action>
+        <action name="*_question" class="askQuestionAction" method="{1}Question">
+          <result name="input">/WEB-INF/pages/web/login.jsp</result>
+           <result name="ask">/WEB-INF/pages/space/question_ask.jsp</result>
+         <result  type="redirectAction">
+             	<param name="actionName">myquestion_space</param>
+           </result>
+            <interceptor-ref name="checkLog"></interceptor-ref>
+        </action>
+        
+      </package>
+      
+      <!-- 文章相关 -->
+      <package name="red_article" extends="red" namespace="/red/article">
+         <action name="articles" class="articlesAction">
+            <result>/WEB-INF/pages/web/articles.jsp</result>
+         </action>
+         <action name="articleList" class="articlesListAction">
+            <result>/WEB-INF/pages/web/article_list.jsp</result>
+         </action>
+         <action name="articleContent" class="articleContentAction">
+             <result>/WEB-INF/pages/web/article_content.jsp</result>
+         </action>
+      </package>
+      
+       <!--前台课程模块 -->
+      <package name="red_course" extends="red" namespace="/red/course">
+
+         <action name="courses" class="coursesAction">
+            <result>/WEB-INF/pages/web/courses.jsp</result>
+         </action>
+         <action name="courseList" class="courseListAction">
+            <result>/WEB-INF/pages/web/course_list.jsp</result>
+         </action>
+
+          <!-- 视频下载 -->
+         <action name="downvod" class="downloadVodAction">
+               <result name="novod">/error.html</result>
+	           <result type="streamx">
+	              <param name="contentType">application/octet-stream</param>
+	              <param name="inputName">fileStream</param>
+	              <param name="contentDisposition">
+	               attachment;filename="${originalName}"
+	              </param>
+	              <param name="bufferSize">2048</param>
+	           </result>  
+         </action>
+
+     </package>
+     <!-- 前台问题模块 -->
+     <package name="red_question"  extends="red" namespace="/red/question">
+       <action name="questions" class="questionsAction">
+         <result>/WEB-INF/pages/web/questions.jsp</result>
+       </action>
+       <action name="questionList" class="questionListAction">
+          <result>/WEB-INF/pages/web/question_list.jsp</result>
+        </action>
+        <action name="questionDesc" class="questionDescAction">
+           <result name="input">/WEB-INF/pages/web/question.jsp</result>
+           <result>/WEB-INF/pages/web/question.jsp</result>
+        </action>
+          <action name="questionAnswer" class="questionAnswerAction">
+           <result name="input">/WEB-INF/pages/web/login.jsp</result>
+           <result  type="redirectAction">
+             	<param name="actionName">questionDesc</param>
+				<param name="questionId">${question.id}</param>
+           </result>
+        </action>
+        
+
+     </package>
+     
+      <!-- 前台下载模块 -->
+     <package name="red_download" extends="red" namespace="/red/download">
+        <action name="downloads">
+           <result>/WEB-INF/pages/web/downloads.jsp</result>
+        </action>
+         <action name="downloadList" class="downloadListAction">
+          <result>/WEB-INF/pages/web/download_list.jsp</result>
+        </action>
+        
+         <action name="downloadFile" class="downloadFileAction">
+           <result type="streamx">
+              <param name="contentType">application/octet-stream</param>
+              <param name="inputName">fileStream</param>
+              <param name="contentDisposition">
+               attachment;filename="${download.oldName}"
+              </param>
+              <param name="bufferSize">2048</param>
+           </result>
+        </action>
+     </package>
+     <!-- 生成静态页面 -->
+     <package name="html" namespace="/redhtml" extends="red">
+     <!-- 生成右测html -->
+        <action name="right" class="rightAction">
+            <result>/WEB-INF/pages/web/right.jsp</result>  
+        </action>
+        <!-- 生成文章内容html -->
+          <action name="articleContent" class="articleContentAction">
+             <result>/WEB-INF/pages/web/article_content.jsp</result>
+         </action>
+          <!-- 生成下载内容html -->
+          <action name="downloadDesc" class="downloadDescAction">
+           <result>/WEB-INF/pages/web/download.jsp</result>
+        </action>
+         <!-- 生成首页main内容html -->
+        <action name="main" class="mainAction">
+         <result>/WEB-INF/pages/web/main.jsp</result>
+       </action>
+       <!-- 生成课程章节列表 -->
+         <action name="courseList" class="courseListAction">
+            <result>/WEB-INF/pages/web/course_list.jsp</result>
+         </action>
+       <!-- 生成课程列表 -->
+         <action name="courses" class="coursesAction">
+            <result>/WEB-INF/pages/web/courses.jsp</result>
+         </action>
+          <!-- 生成文章列表 --> 
+          <action name="articles" class="articlesAction">
+            <result>/WEB-INF/pages/web/articles.jsp</result>
+         </action>
+         <!-- 生成下载列表 --> 
+          <action name="downloads">
+           <result>/WEB-INF/pages/web/downloads.jsp</result>
+        </action>
+     </package>
+      
+    </struts>

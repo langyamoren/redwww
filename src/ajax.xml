@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    
+    
+    <struts>    
+     <package name="ajax" namespace="/mred/ajax" extends="mred">
+
+      <!-- 文章首页上传 -->
+       <action name="editorUploadFile" class="editorFileUpload">
+	       <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">2097152</param>
+	          <param name="fileUpload.allowedExtensions">.jpg,.zip,.gif,bmp,png</param>
+	       </interceptor-ref>
+		    <result></result>
+		    <result name="input"></result>
+	       <param name="width">600</param>
+		   <param name="height">600</param>
+		   <param name="upPath">res/upres/kind_pic</param> 
+      </action>
+     <!-- 课程内容中图片上传 -->
+       <action name="chapterEditorUploadFile" class="editorFileUpload">
+	       <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">2097152</param>
+	          <param name="fileUpload.allowedExtensions">.jpg,.zip,.gif,bmp,png</param>
+	       </interceptor-ref>
+		    <result></result>
+		    <result name="input"></result>
+	       <param name="width">600</param>
+		   <param name="height">600</param>
+		   <param name="upPath">res/upres/chapter_pic</param> 
+      </action>
+     </package>
+     
+     <package name="webajax" namespace="/mred/ajax" extends="json-default">
+       <action name="randImg" class="com.red.action.ajax.RandomImage">
+	     <result></result>
+	   </action>
+	   
+	   
+     
+     <!-- 上传软件缩略图 -->
+      <action name="uploadDownloadIndexPic" class="com.red.action.ajax.UploadDownLoadIndexPic">
+	       <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">2097152</param>
+	          <param name="fileUpload.allowedExtensions">.jpg,.gif,bmp,png</param>
+	       </interceptor-ref>
+		   <result type="json"></result> 
+		   <param name="width">300</param>
+		   <param name="height">200</param>
+		   <param name="upPath">res/upres/soft_pic</param>  
+      </action>
+      <!-- 上传软件 -->
+      <action name="uploadSoftFile" class="com.red.action.ajax.UploadSoftFile">
+	       <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">209715200</param>
+	          <param name="fileUpload.allowedExtensions">.rar,.zip,.tar,gz</param>
+	       </interceptor-ref>
+		   <result type="json"></result> 
+		   <param name="upPath">res/upres/soft</param>  
+      </action>
+      <!-- 上传课程缩略图 -->
+      <action name="uploadCourseIndexPic" class="com.red.action.ajax.UploadDownLoadIndexPic">
+	       <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">2097152</param>
+	          <param name="fileUpload.allowedExtensions">.jpg,.gif,bmp,png</param>
+	       </interceptor-ref>
+		   <result type="json"></result> 
+		   <param name="width">140</param>
+		   <param name="height">80</param>
+		   <param name="upPath">res/upres/course_pic</param>  
+      </action>
+     <!-- 上传视频 -->
+      <action name="uploadVodFile" class="com.red.action.ajax.UploadSoftFile">
+	       <interceptor-ref name="defaultStack">
+	          <param name="fileUpload.maximumSize">209715200</param>
+	          <param name="fileUpload.allowedExtensions">.rar,.zip,.tar,gz</param>
+	       </interceptor-ref>
+		   <result type="json"></result> 
+		   <param name="upPath">res/upres/vod</param>  
+      </action>
+      
+      <action name="deleteTemFile" class="com.red.action.ajax.DeleteTemFileAction">
+         <result type="json"></result> 
+          <param name="upPath">res/upres/vod</param>
+      </action>
+
+      <action name="ajax_*" class="ajaxAction" method="{1}Ajax">
+          <result type="json"></result>
+      </action>
+     </package>
+    </struts>
